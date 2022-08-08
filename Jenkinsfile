@@ -1,8 +1,5 @@
 pipeline{
     agent any 
-    environment{
-        VERSION = "${env.BUILD_ID}"
-    }
     stages{
         stage("sonar quality check"){
             agent {
@@ -16,7 +13,6 @@ pipeline{
                             sh 'chmod +x gradlew'
                             sh './gradlew sonarqube'
                     }
-
                     timeout(time: 1, unit: 'HOURS') {
                       def qg = waitForQualityGate()
                       if (qg.status != 'OK') {
